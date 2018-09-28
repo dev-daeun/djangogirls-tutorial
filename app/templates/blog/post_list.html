@@ -5,12 +5,21 @@
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
 </head>
 <body>
-    <h1>post list</h1>
-    <ul>
-        {% for p in posts %}
-            <li>{{ p.title | safe }} {{ p.published_date | safe }}</li>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a href="" class="navbar-brand">Django Girls Practicing</a>
+    </nav>
+    <div class="container">
+        <h1>post list</h1>
+        {% for post in posts %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title | safe }}</h5>
+                    <p>{{ post.author }}</p>
+                    <p>{{ post.created_date }}</p>
+                    <p>{{ post.text | linebreaksbr | truncatechars:200 }}</p>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
-
+    </div>
 </body>
 </html>

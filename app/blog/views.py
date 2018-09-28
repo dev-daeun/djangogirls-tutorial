@@ -27,7 +27,7 @@ def post_list(request):
     # content = template.render(context, request)
     # return HttpResponse(content)
 
-    posts = Post.objects.filter(published_date__isnull=False).order_by('-published_date')
+    posts = Post.objects.select_related('author').filter(published_date__isnull=False).order_by('-published_date')
     print("type of posts : ", type(posts))
 
     context = {
