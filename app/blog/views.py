@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
 from os import path
-
+from re import *
 from .models import Post
+
 
 def post_list(request):
     """
@@ -27,7 +28,7 @@ def post_list(request):
     # content = template.render(context, request)
     # return HttpResponse(content)
 
-    posts = Post.objects.select_related('author').filter(published_date__isnull=False).order_by('-published_date')
+    posts = Post.objects.filter(published_date__isnull=False).order_by('-published_date')
     print("type of posts : ", type(posts))
 
     context = {
@@ -39,3 +40,15 @@ def post_list(request):
         template_name='blog/post_list.html',
     )
 
+
+def post_detail(request, post_id):
+
+    post = Post.objects.get(id=post_id)
+    context = {
+        'post': post
+    }
+    return render(
+        request=request,
+        context=context,
+        template_name='blog/post_detail.html',
+    )

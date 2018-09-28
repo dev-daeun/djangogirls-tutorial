@@ -10,6 +10,9 @@ class Post(models.Model):
         'auth.User',
         on_delete=models.CASCADE,
     )
+    # auther는 User 객체. __str__은 username 리턴함.
+    # getattr() : 객체의 속성명으로 속성의 값을 가져오는 파이썬 내장함수.
+
     title = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)

@@ -1,0 +1,23 @@
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a href="" class="navbar-brand">Django Girls Practicing</a>
+    </nav>
+    <div class="container">
+        <h1>post detail</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title | safe }}</h5>
+                <p>{{ post.author }}</p>
+                <p>{{ post.created_date }}</p>
+                <p>{{ post.text | linebreaksbr }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
