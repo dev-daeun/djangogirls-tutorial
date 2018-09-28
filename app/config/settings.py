@@ -13,8 +13,15 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# 여기는 built-in 상수 아님.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+# STATICFILES_DIRS : 장고가 정적파일을 검색할 때 필요한 설정 (built-in 상수)
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -121,5 +128,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
+
+# DEBUG = True 로 설정되어 있을 때
+# settings.STATIC_URL의 하위 주소들로 요청이 들어오면,
+# settings.STATICFILES_DIRS 리스트에 들어가있는 경로에서 해당파일을 검색하고, 검색에 걸리면 정적 파일을 보낸다.
+# 즉, django의 urlresolver 가 '/static'으로 시작하는 url을 가로채서 정적 파일을 검색, 응답하는 방식.
+
 
 STATIC_URL = '/static/'
