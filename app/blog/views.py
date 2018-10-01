@@ -41,9 +41,9 @@ def post_list(request):
     )
 
 
-def post_detail(request, post_id):
-
-    post = Post.objects.get(id=post_id)
+def post_detail(request, id):
+    # post_detail.html 템플릿에서 kwargs로 넘긴 id가 파라미터로 넘어옴.
+    post = Post.objects.get(id=id)
     context = {
         'post': post
     }
@@ -52,3 +52,26 @@ def post_detail(request, post_id):
         context=context,
         template_name='blog/post_detail.html',
     )
+
+
+def post_create(request):
+    """
+    template: blog/post_create.html
+    url : /post/create
+    :param request: input, textarea, button
+    :return: redirect post/[created_post]
+    """
+    if request.method == 'GET':
+        return render(
+            request=request,
+            template_name='blog/post_create.html',
+        )
+    else:
+        Post.objects.create(
+            title=request.POST['title'],
+            text=request.POST['content'],
+            author=request.user,
+        )
+        return HttpResponseRedirect('post/')
+
+

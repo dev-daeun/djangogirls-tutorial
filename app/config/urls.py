@@ -19,9 +19,10 @@ from django.contrib import admin
 from blog import views
 
 urlpatterns = [
-    url(r'^admin/$', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     # name속성 : url에 이름을 붙임 -> 다른 영역에서 name을 이용해서 동적으로 url을 참조한다.
     # url의 id는 템플릿에서 kwargs로 인자를 넘겨줄 때의 이름.
     url(r'^post/(?P<id>\d+)/$', views.post_detail, name='post_detail'),
     url(r'^post/$', views.post_list, name='post_list'),
+    url(r'^post/create/$', views.post_create, name='post_create'),
 ]
