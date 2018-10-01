@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
+from django.urls import reverse
 from django.utils import timezone
 from os import path
 from re import *
@@ -72,6 +73,8 @@ def post_create(request):
             text=request.POST['content'],
             author=request.user,
         )
-        return HttpResponseRedirect('post/')
+        # post/ 로 리다이렉션.
+        # redirected = reverse('post_list')
+        return HttpResponseRedirect('post_list')
 
 
