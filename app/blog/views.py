@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
@@ -42,9 +42,9 @@ def post_list(request):
     )
 
 
-def post_detail(request, id):
+def post_detail(request, id_):
     # post_detail.html 템플릿에서 kwargs로 넘긴 id가 파라미터로 넘어옴.
-    post = Post.objects.get(id=id)
+    post = Post.objects.get(id=id_)
     context = {
         'post': post
     }
@@ -75,6 +75,29 @@ def post_create(request):
         )
         # post/ 로 리다이렉션.
         # redirected = reverse('post_list')
-        return HttpResponseRedirect('post_list')
+        return HttpResponseRedirect(reverse('post_list'))
 
 
+def post_edit(request, id_):
+    if request.method == 'GET':
+        context = {
+            'post': Post.objects.get(id=id_)
+        }
+        return render(
+            request=request,
+            template_name='blog/post_edit.html',
+            context=context
+        )
+    else:
+        updated_title = request.POST['title']
+        updated_content = request.POST['content']
+
+        Post.objects.filter(id=id_).update(
+            title=updated_title,
+            text=updated_content
+        )
+
+        # 1. 'post_detail'을 name으로 갖는 뷰 함수로 reverse-resolve.
+        # 2. 뷰 함수가 갖는 파라미터를 kwargs로 보낸다. (post_detail 함수는 id_를 파라미터로 받음.)
+        # 3. reverse-resolve 한 url으로 리다이렉트 한다.
+        return redirect('post_detail', id_=id_)

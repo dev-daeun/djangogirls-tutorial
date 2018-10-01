@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="{% url 'post_edit' id_=post.id%}" method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="title">title</label>
+        <input type="text" name="title" id="title" default="{{ post.title }}" value="{{post.title}}">
+    </div>
+    <div>
+        <label for="content">content</label>
+        <textarea name="content" id="content" cols="100" rows="10" default="{{ post.text }}">
+            {{post.text}}
+        </textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">update</button>
+</form>
+{% endblock %}
