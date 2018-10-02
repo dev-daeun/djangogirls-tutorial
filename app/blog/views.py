@@ -1,16 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.template import loader
 from django.urls import reverse
 from django.utils import timezone
-from os import path
-from re import *
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import Post
 
 
 def post_list(request):
     """
-
     :param request: HTTP 요청 객체
     :return: name
     """
@@ -29,11 +26,20 @@ def post_list(request):
     # content = template.render(context, request)
     # return HttpResponse(content)
 
-    posts = Post.objects.filter(published_date__isnull=False).order_by('-published_date')
-    print("type of posts : ", type(posts))
+    posts = Post.objects.all().order_by('-published_date')
+    page_num = request.GET['page']
+    paginator = Paginator(posts, 5)
+    try:
+        current_page = paginator.page(page_num)
+    except PageNotAnInteger:
+        # 리퀘스트로 들어온 페이지가 int타입이 아니면 무조건 첫번째 페이지로.
+        current_page = paginator.page(1)
+    except EmptyPage:
+        # 리퀘스트로 들어온 페이지 숫자가 최대를 넘기면 무조건 마지막 페이지로.
+        current_page = paginator.page(paginator.num_pages)
 
     context = {
-        'posts': posts,
+        'posts': current_page,
     }
     return render(
         request=request,
